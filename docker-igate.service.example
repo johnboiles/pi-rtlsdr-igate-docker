@@ -1,5 +1,5 @@
 [Unit]
-Description=Direwolf/APRS iGate container
+Description=APRS iGate container
 Requires=docker.service
 After=docker.service
 
@@ -18,7 +18,7 @@ ExecStart=/usr/bin/docker run --name docker-igate --privileged \
 #	-e LATITUDE= \
 #	-e LONGITUDE= \
 #	-e COMMENT=${COMMENT} \
-	johnboiles/pi-rtlsdr-direwolf
+	johnboiles/pi-rtlsdr-igate
 ExecStop=/usr/bin/docker stop -t 2 docker-igate
 ExecStopPost=/usr/bin/docker rm -f docker-igate
 
