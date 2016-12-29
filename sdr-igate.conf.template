@@ -33,7 +33,6 @@ IGLOGIN {{MYCALL}} {{APRS_PASSWORD}}
 
 # You might want to apply a filter for what packets will be obtained from the server.
 # Read about filters here:  http://www.aprs-is.net/javAPRSFilter.aspx
-# Using distance=0 to signify we can't TX packets.
 
 #IGFILTER {{IGFILTER}}
 
