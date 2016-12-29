@@ -1,5 +1,5 @@
 #
-# Configuration for SDR read-only IGate.
+# Direwolf configuration for SDR read-only IGate.
 #
 
 # We might not have an audio output device so set to null.
