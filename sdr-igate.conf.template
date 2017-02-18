@@ -9,7 +9,7 @@ ADEVICE null null
 CHANNEL 0
 MYCALL {{MYCALL}}
 
-# First you need to specify the name of a Tier 2 server.  
+# First you need to specify the name of a Tier 2 server.
 # The current preferred way is to use one of these regional rotate addresses:
 #     noam.aprs2.net           - for North America
 #     soam.aprs2.net          - for South America
@@ -25,11 +25,15 @@ IGSERVER {{IGSERVER}}
 IGLOGIN {{MYCALL}} {{APRS_PASSWORD}}
 
 # Some might want to send an IGate client position directly to a server
-# without sending it over the air and relying on someone else to 
+# without sending it over the air and relying on someone else to
 # forward it to an IGate server.  This is done by using sendto=IG rather
 # than a radio channel number. Overlay R for receive only, T for two way.
 
 #PBEACON sendto=IG delay=0:30 every=60:00 symbol="igate" overlay=R lat={{LATITUDE}} long={{LONGITUDE}} comment={{COMMENT}}
+
+#GPSD {{GPSD_HOST}} {{GPSD_PORT}}
+#GPSNMEA {{NMEA_GPS}}
+#TBEACON sendto=IG delay=0:30 every=60:00 symbol="igate" overlay=R comment={{COMMENT}}
 
 # You might want to apply a filter for what packets will be obtained from the server.
 # Read about filters here:  http://www.aprs-is.net/javAPRSFilter.aspx
