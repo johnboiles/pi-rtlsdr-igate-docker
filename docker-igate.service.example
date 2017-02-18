@@ -6,10 +6,14 @@ After=docker.service
 [Service]
 # Uncomment to have systemd automatically restart this process if it fails
 #Restart=always
+# You must fill in MYCALL & APRS_PASSWORD for this to work
+# To send a PBEACON (fixed) for this station, uncomment and fill in LATITUDE, LONGITUDE
+# To send a TBEACON (dynamic) for this station, uncomment and fill in either
+#   1) NMEA_GPS with a serial device connected to a NMEA GPSD or
+#   2) GPSD_HOST (and optionally GPSD_PORT) to point to a running gpsd instance
+# For both PBEACON and TBEACON you can optionally provide a COMMENT
 # Systemd isn't very good at environment variables with spaces in them, so you have to do it like this
 Environment='COMMENT=RaspberryPi + RTL-SDR + Direwolf'
-# You must fill in MYCALL & APRS_PASSWORD for this to work
-# To send a PBEACON for this station, uncomment and fill in LATITUDE, LONGITUDE and (optionally) COMMENT
 # To set an IGFILTER, uncomment and fill in the IGFILTER line
 ExecStart=/usr/bin/docker run --name docker-igate --privileged \
 	-e MYCALL= \
@@ -17,6 +21,9 @@ ExecStart=/usr/bin/docker run --name docker-igate --privileged \
 #	-e IGFILTER= \
 #	-e LATITUDE= \
 #	-e LONGITUDE= \
+# -e NMEA_GPS=/dev/ttyACM0
+# -e GPSD_HOST=localhost
+# -e GPSD_PORT=2947
 #	-e COMMENT=${COMMENT} \
 	johnboiles/pi-rtlsdr-igate
 ExecStop=/usr/bin/docker stop -t 2 docker-igate
