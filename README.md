@@ -17,6 +17,14 @@ You now have a functioning IGate on your RaspberryPi! If you also want to send a
 
     docker run --privileged -e MYCALL=YOURCALLHERE -e APRS_PASSWORD=YOURPASSWORDHERE -e LATITUDE=30.1234 -e LONGITUDE=-90.1234 -e COMMENT="RaspberryPi + RTL-SDR + Direwolf" -it johnboiles/pi-rtlsdr-igate
 
+OR you can use a connected NMEA GPS to send position packets by setting the NMEA_GPS environment variable
+
+    docker run --privileged -e MYCALL=YOURCALLHERE -e APRS_PASSWORD=YOURPASSWORDHERE -e NMEA_GPS=/dev/ttyACM0 -e COMMENT="RaspberryPi + RTL-SDR + Direwolf" -it johnboiles/pi-rtlsdr-igate
+
+OR you can use a running gpsd instance by setting the GPSD_HOST (and optional GPSD_PORT) environment variables. You can use `dockerhost` to point back to the host machine. Note that you must use `--net=host` to access gpsd at `localhost`.
+
+    docker run --privileged -e MYCALL=YOURCALLHERE -e APRS_PASSWORD=YOURPASSWORDHERE -e GPSD_HOST=localhost --net=host -e COMMENT="RaspberryPi + RTL-SDR + Direwolf" -it johnboiles/pi-rtlsdr-igate
+
 ## systemd script
 
 I've also included a systemd script which makes it easy to have the RaspberryPi start the IGate. To use it copy the systemd file to the appropriate location.
@@ -54,4 +62,3 @@ This is mostly for my own reference. But you might want to run a variation of th
 ## TODO
 
 * Configure logging in a smarter way, probably in the systemd script (right now all logs from the Docker container go to `/var/log/syslog`)
-* Support GPSd for dynamic position updates (i.e. moving IGates)
