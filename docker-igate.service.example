@@ -6,7 +6,7 @@ After=docker.service
 [Service]
 # Uncomment to have systemd automatically restart this process if it fails
 #Restart=always
-# You must fill in MYCALL & APRS_PASSWORD for this to work
+# You must fill in MYCALL & APRS_PASSWORD for this to work.
 # To send a PBEACON (fixed) for this station, uncomment and fill in LATITUDE, LONGITUDE
 # To send a TBEACON (dynamic) for this station, uncomment and fill in either
 #   1) NMEA_GPS with a serial device connected to a NMEA GPSD or
@@ -15,6 +15,9 @@ After=docker.service
 # Systemd isn't very good at environment variables with spaces in them, so you have to do it like this
 Environment='COMMENT=RaspberryPi + RTL-SDR + Direwolf'
 # To set an IGFILTER, uncomment and fill in the IGFILTER line
+
+# In case we didn't shut down properly, try to remove any container with the same name
+ExecStartPre=-/usr/bin/docker rm -f docker-igate
 ExecStart=/usr/bin/docker run --name docker-igate --privileged \
 	-e MYCALL= \
 	-e APRS_PASSWORD= \
@@ -27,7 +30,6 @@ ExecStart=/usr/bin/docker run --name docker-igate --privileged \
 #	-e COMMENT=${COMMENT} \
 	johnboiles/pi-rtlsdr-igate
 ExecStop=/usr/bin/docker stop -t 2 docker-igate
-ExecStopPost=/usr/bin/docker rm -f docker-igate
 
 [Install]
 WantedBy=default.target
