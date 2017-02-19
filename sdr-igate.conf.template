@@ -29,11 +29,11 @@ IGLOGIN {{MYCALL}} {{APRS_PASSWORD}}
 # forward it to an IGate server.  This is done by using sendto=IG rather
 # than a radio channel number. Overlay R for receive only, T for two way.
 
-#PBEACON sendto=IG delay=0:30 every=60:00 symbol="igate" overlay=R lat={{LATITUDE}} long={{LONGITUDE}} comment={{COMMENT}}
+#PBEACON sendto=IG delay={{BEACON_DELAY}} every={{BEACON_EVERY}} symbol="{{BEACON_SYMBOL}}" overlay=R lat={{LATITUDE}} long={{LONGITUDE}} comment={{COMMENT}}
 
 #GPSD {{GPSD_HOST}} {{GPSD_PORT}}
 #GPSNMEA {{NMEA_GPS}}
-#TBEACON sendto=IG delay=0:30 every=60:00 symbol="igate" overlay=R comment={{COMMENT}}
+#TBEACON sendto=IG delay={{BEACON_DELAY}} every={{BEACON_EVERY}} symbol="{{BEACON_SYMBOL}}" overlay=R comment={{COMMENT}}
 
 # You might want to apply a filter for what packets will be obtained from the server.
 # Read about filters here:  http://www.aprs-is.net/javAPRSFilter.aspx

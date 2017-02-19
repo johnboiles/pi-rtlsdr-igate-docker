@@ -30,7 +30,25 @@ fi
 echo "IGSERVER: $IGSERVER"
 sed -i -e "s/{{IGSERVER}}/${IGSERVER}/g" $CONF
 
-fill_or_strip_comment () {
+configure_beacon () {
+	if [ -n "$BEACON_DELAY" ]; then
+		echo "BEACON_DELAY: $BEACON_DELAY"
+		sed -i -e "s/{{BEACON_DELAY}}/${BEACON_DELAY}/g" $CONF
+	else
+		sed -i -e "s/{{BEACON_DELAY}}/0:30/g" $CONF
+	fi
+	if [ -n "$BEACON_EVERY" ]; then
+		echo "BEACON_EVERY: $BEACON_EVERY"
+		sed -i -e "s/{{BEACON_EVERY}}/${BEACON_EVERY}/g" $CONF
+	else
+		sed -i -e "s/{{BEACON_EVERY}}/60:00/g" $CONF
+	fi
+	if [ -n "$BEACON_SYMBOL" ]; then
+		echo "BEACON_SYMBOL: $BEACON_SYMBOL"
+		sed -i -e "s/{{BEACON_SYMBOL}}/${BEACON_SYMBOL}/g" $CONF
+	else
+		sed -i -e "s/{{BEACON_SYMBOL}}/igate/g" $CONF
+	fi
 	if [ -n "$COMMENT" ]; then
 		echo "COMMENT: $COMMENT"
 		sed -i -e "s/{{COMMENT}}/\"${COMMENT}\"/g" $CONF
@@ -48,14 +66,14 @@ if [[ -n "$LATITUDE" ]] && [[ -n "$LONGITUDE" ]]; then
 	sed -i -e "s/{{LATITUDE}}/${LATITUDE}/g" $CONF
 	sed -i -e "s/{{LONGITUDE}}/${LONGITUDE}/g" $CONF
 	sed -i -e "s/#PBEACON/PBEACON/g" $CONF
-	fill_or_strip_comment
+	configure_beacon
 elif [ -n "$NMEA_GPS" ]; then
 	echo "NMEA_GPS: $NMEA_GPS"
 	# Use % here instead of / since device descriptors typically have / in them
 	sed -i -e "s%{{NMEA_GPS}}%${NMEA_GPS}%g" $CONF
 	sed -i -e "s/#GPSNMEA/GPSNMEA/g" $CONF
 	sed -i -e "s/#TBEACON/TBEACON/g" $CONF
-	fill_or_strip_comment
+	configure_beacon
 elif [ -n "$GPSD_HOST" ]; then
 	echo "GPSD_HOST: $GPSD_HOST"
 	sed -i -e "s/{{GPSD_HOST}}/${GPSD_HOST}/g" $CONF
@@ -68,7 +86,7 @@ elif [ -n "$GPSD_HOST" ]; then
 		# Fall back to default gpsd port 2947
 		sed -i -e "s/{{GPSD_PORT}}/2947/g" $CONF
 	fi
-	fill_or_strip_comment
+	configure_beacon
 fi
 
 if [ -n "$IGFILTER" ]; then
